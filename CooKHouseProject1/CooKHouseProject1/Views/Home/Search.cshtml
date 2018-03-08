@@ -1,0 +1,8 @@
+﻿@model List<CookHouseDB.DAL.Restaurant_Branch>
+@{
+    ViewBag.Title = "Search";
+}
+
+<h2>Search</h2>
+@Html.DropDownList("Drop1", new SelectList(Model, "ID", "Restaurant.Name")))
+

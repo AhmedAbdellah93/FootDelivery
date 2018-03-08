@@ -1,0 +1,66 @@
+﻿@model List<CookHouseDB.DAL.Governorate>
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="banner wow fadeInUp" data-wow-delay="0.4s" id="Home">
+    <div class="container">
+        <div class="banner-info">
+            <div class="banner-info-head text-center wow fadeInLeft" data-wow-delay="0.5s">
+                <h1>Network of over 5000 Restaurants</h1>
+                <div class="line">
+                    <h2> To Order Online</h2>
+                </div>
+            </div>
+          
+                @using (Html.BeginForm("Search", "Home"))
+                {
+                    <div class="row">
+                        <div class="col-xs-4"> 
+                            @*<input type="text" class="text" value="Secunderabad" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Secunderabad';}">*@
+
+                            @Html.DropDownList("GovId", new SelectList(Model, "ID","Name"), new { @class = "form-control" ,id="d1", required = "required" })
+                          
+
+                        </div>
+                        <div class="col-xs-4">
+                            @*<span> Choose Area </span>*@
+                            @*<input type="text" class="text" value="Swagath Grand" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Swagath Grand';}">*@
+
+                            @Html.DropDownList("qrtId", new SelectList(ViewBag.qrt, "ID", "Quarter_Name"), new { @class = "form-control" ,id="qrt"})
+                        </div>
+                        <div class="col-xs-4">
+                            <input type="submit" value="Search Now" class="btn bg-success" />
+                        </div>
+
+                    </div>
+                } 
+                
+          
+  @section Footer{
+            <script>
+             
+                var url = '@Url.Action("GetQuarter","Home")'; //Get Action That Return Json File
+                var DropQuarter = $("#qrt");  //Get DropDown that will fill
+                $('select[name="GovId"]').change(function () {  // Get Selected From City Drop
+                    var Id = $(this).val();   // Get Name
+                  
+                    //  Get Json To Fill DropDown List
+                    $.getJSON(url, { GovId: Id }, function (response) {
+                        DropQuarter.empty(); // remove any existing options
+                        $.each(response, function (index,item) {
+                            // DropQuarter.append("<option value="+1+">"+ item+"</option>");
+                            DropQuarter.append("<option value="+item.ID+">" + item.Quarter_Name + "</option>");
+
+                        });
+
+                    });
+                });
+            </script>
+            
+            }     
+           
+           
+        </div>
+    </div>
+</div>
